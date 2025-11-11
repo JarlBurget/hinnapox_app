@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity} from 'react-native';
-import { router, usePathname } from 'expo-router';
+import { useRouter, usePathname } from 'expo-router';
 import { SvgProps } from "react-native-svg";
 
 //SVG import
@@ -25,6 +25,7 @@ const navItems: NavItem[] = [
 export default function NavBar() {
     // Takes the current pathname/tab.
     const pathname = usePathname();
+    const router = useRouter();
 
     return (
         <View className="flex-row justify-around items-center py-3 bg-gray-100">
