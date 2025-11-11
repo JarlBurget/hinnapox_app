@@ -1,3 +1,4 @@
+import React from 'react';
 import { ScreenContent } from 'components/ScreenContent';
 import { StatusBar } from 'expo-status-bar';
 
