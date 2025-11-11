@@ -10,7 +10,7 @@ import './global.css';
 export default function App() {
   return (
     <View className='flex-1 bg-white'>
-      <Header title='Home' />
+      <Header />
       <ScreenContent title="Home" path="App.tsx"></ScreenContent>
       <StatusBar style="auto" animated />
       <NavBar />
