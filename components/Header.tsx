@@ -1,16 +1,26 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, usePathname } from 'expo-router';
 
 // Import SVG
-import SettingIcon from 'assets/icons/Setting.svg';
+import SettingIcon from 'assets/icons/Setting.svg'
 
-interface HeaderProps {
-  title?: string;
+const pathTitles: { [key: string]:string } = {
+    "/": "Home",
+    "/fuel": "Fuel Prices",
+    "/electricity": "Electricity Prices",
+    "/map": "Map",
+    "/settings": "Settings"
 }
 
-const Header: React.FC<HeaderProps> = ({ title }) => {
-  const router = useRouter();
+interface HeaderProps {
+}
+
+const Header: React.FC<HeaderProps> = () => {
+    const pathname = usePathname();
+    const router = useRouter();
+
+    const title = pathTitles[pathname];
 
   return (
     <View className="border-b border-gray-200 bg-white">
