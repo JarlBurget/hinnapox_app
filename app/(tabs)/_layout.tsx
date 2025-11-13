@@ -21,11 +21,11 @@ export default function TabLayout() {
   return (
     <View style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }}>
       {showSplash ? (
-        <Splash /> // Show splash screen
+        <Splash />
       ) : (
         <>
           <Header />
-          <Slot /> {/* Your main app content */}
+          <Slot />
           <NavBar />
         </>
       )}
