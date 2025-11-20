@@ -3,8 +3,10 @@ import { View } from 'react-native';
 import { Slot } from 'expo-router';
 import NavBar from 'components/NavBar';
 import Header from 'components/Header';
-import Splash from './splash'; // Import your Splash component
+
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
@@ -20,15 +22,11 @@ export default function TabLayout() {
 
   return (
     <View style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }}>
-      {showSplash ? (
-        <Splash />
-      ) : (
         <>
           <Header />
           <Slot />
           <NavBar />
         </>
-      )}
     </View>
   );
 }

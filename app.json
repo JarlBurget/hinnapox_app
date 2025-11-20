@@ -28,6 +28,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.anonymous.hinnapox_app"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "aace0dca-c152-45d1-9d12-503386eb14f6"
       }
     },
     "plugins": [
