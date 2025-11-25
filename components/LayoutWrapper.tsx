@@ -1,12 +1,23 @@
-import React from 'react';
-import { ScrollView, View } from 'react-native';
+import React, { forwardRef, memo } from 'react';
+import { ScrollView, ScrollViewProps } from 'react-native';
 
-const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <View className="flex-1 bg-white">{children}</View>
-    </ScrollView>
-  );
+type Props = ScrollViewProps & {
+  children: React.ReactNode;
 };
 
-export default LayoutWrapper;
+const LayoutWrapper = forwardRef<ScrollView, Props>(
+  ({ children, contentContainerStyle, style, ...rest }, ref) => {
+    return (
+      <ScrollView
+        ref={ref}
+        contentContainerStyle={[{ flexGrow: 1 }, contentContainerStyle]}
+        style={[{ flex: 1, backgroundColor: 'white' }, style]}
+        {...rest}
+        className="flex-1 bg-white">
+        {children}
+      </ScrollView>
+    );
+  }
+);
+
+export default memo(LayoutWrapper);

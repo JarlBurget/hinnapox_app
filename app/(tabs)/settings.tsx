@@ -11,7 +11,7 @@ const Settings = () => {
   const [electricityNotification, setElectricityNotification] = useState(false);
 
   return (
-    <>
+    <View className="px-6 pt-6">
       <Text className="mb-2 ml-1 text-gray-500">{t('language')}</Text>
       <View className="mb-6 flex-row gap-3">
         <TouchableOpacity
@@ -72,7 +72,7 @@ const Settings = () => {
           />
         </View>
       </View>
-    </>
+    </View>
   );
 };
 
