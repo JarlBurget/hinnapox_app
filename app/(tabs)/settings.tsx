@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { Text, TouchableOpacity, View, Switch, ScrollView } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { useLanguage } from 'contexts/LanguageContext';
 
 const Settings = () => {
-  const [language, setLanguage] = useState<'et' | 'en'>('et');
+  const { t } = useTranslation();
+  const { language, setLanguage } = useLanguage();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [fuelNotification, setFuelNotification] = useState(false);
   const [electricityNotification, setElectricityNotification] = useState(false);
 
   return (
     <ScrollView className="flex-1  p-4">
-      <Text className="mb-2 ml-1 text-gray-500">Keele valik</Text>
+      <Text className="mb-2 ml-1 text-gray-500">{t('language')}</Text>
       <View className="mb-6 flex-row gap-3">
         <TouchableOpacity
           onPress={() => setLanguage('et')}
@@ -18,7 +21,7 @@ const Settings = () => {
           }`}>
           <Text
             className={`text-lg font-medium ${language === 'et' ? 'text-white' : 'text-black'}`}>
-            Eesti
+            {t('estonian')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -28,15 +31,15 @@ const Settings = () => {
           }`}>
           <Text
             className={`text-lg font-medium ${language === 'en' ? 'text-white' : 'text-black'}`}>
-            Inglise
+            {t('english')}
           </Text>
         </TouchableOpacity>
       </View>
 
-      <Text className="mb-2 ml-1 text-gray-500">Stiil</Text>
+      <Text className="mb-2 ml-1 text-gray-500">{t('style')}</Text>
 
       <View className="mb-4 flex-row items-center justify-between rounded-lg bg-gray-100 p-4">
-        <Text className="text-xl font-semibold text-black">Tume</Text>
+        <Text className="text-xl font-semibold text-black">{t('darkMode')}</Text>
         <Switch
           value={isDarkMode}
           onValueChange={setIsDarkMode}
@@ -46,10 +49,10 @@ const Settings = () => {
         />
       </View>
 
-      <Text className="mb-2 ml-1 text-gray-500">Märguanne</Text>
+      <Text className="mb-2 ml-1 text-gray-500">{t('notifications')}</Text>
       <View className="flex-col gap-4 ">
         <View className="flex-row items-center justify-between rounded-lg bg-gray-100 p-4">
-          <Text className="text-xl font-semibold text-black">Kütuse hind langes</Text>
+          <Text className="text-xl font-semibold text-black">{t('fuelPriceDropped')}</Text>
           <Switch
             value={fuelNotification}
             onValueChange={setFuelNotification}
@@ -59,7 +62,7 @@ const Settings = () => {
           />
         </View>
         <View className="flex-row items-center justify-between rounded-lg bg-gray-100 p-4">
-          <Text className="text-xl font-semibold text-black">Elektri hind langes</Text>
+          <Text className="text-xl font-semibold text-black">{t('electricityPriceDropped')}</Text>
           <Switch
             value={electricityNotification}
             onValueChange={setElectricityNotification}

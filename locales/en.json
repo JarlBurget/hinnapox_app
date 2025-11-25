@@ -1,0 +1,15 @@
+{
+  "language": "Language",
+  "estonian": "Estonian",
+  "english": "English",
+  "style": "Style",
+  "darkMode": "Dark Mode",
+  "notifications": "Notifications",
+  "fuelPriceDropped": "Fuel price dropped",
+  "electricityPriceDropped": "Electricity price dropped",
+  "currentPrice": "Current price",
+  "petrol95": "Petrol 95",
+  "petrol98": "Petrol 98",
+  "diesel": "Diesel",
+  "electricity": "Electricity"
+}

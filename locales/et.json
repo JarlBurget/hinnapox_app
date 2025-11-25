@@ -1,0 +1,15 @@
+{
+  "language": "Keel",
+  "estonian": "Eesti",
+  "english": "Inglise",
+  "style": "Stiil",
+  "darkMode": "Tume",
+  "notifications": "Märguanne",
+  "fuelPriceDropped": "Kütuse hind langes",
+  "electricityPriceDropped": "Elektri hind langes",
+  "currentPrice": "Hetkehind",
+  "petrol95": "Bensiin 95",
+  "petrol98": "Bensiin 98",
+  "diesel": "Diisel",
+  "electricity": "Elekter"
+}
