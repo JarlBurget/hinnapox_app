@@ -2,6 +2,8 @@
   "language": "Language",
   "estonian": "Estonian",
   "english": "English",
+  "zh-CN": "Chinese (Simplified)",
+  "zh-TW": "Chinese (Traditional)",
   "style": "Style",
   "darkMode": "Dark Mode",
   "notifications": "Notifications",

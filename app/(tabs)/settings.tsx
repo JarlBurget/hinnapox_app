@@ -35,6 +35,28 @@ const Settings = () => {
           </Text>
         </TouchableOpacity>
       </View>
+      <View className="mb-6 flex-row gap-3">
+        <TouchableOpacity
+          onPress={() => setLanguage('zh-CN')}
+          className={`flex-1 items-center rounded-xl py-2.5 ${
+            language === 'zh-CN' ? 'bg-theme-blue' : 'bg-[#E5E5EA]'
+          }`}>
+          <Text
+            className={`text-lg font-medium ${language === 'zh-CN' ? 'text-white' : 'text-black'}`}>
+            {t('zh-CN')}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setLanguage('zh-TW')}
+          className={`flex-1 items-center rounded-xl py-2.5 ${
+            language === 'zh-TW' ? 'bg-theme-blue' : 'bg-[#E5E5EA]'
+          }`}>
+          <Text
+            className={`text-lg font-medium ${language === 'zh-TW' ? 'text-white' : 'text-black'}`}>
+            {t('zh-TW')}
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       <Text className="mb-2 ml-1 text-gray-500">{t('style')}</Text>
 

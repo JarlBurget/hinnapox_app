@@ -3,6 +3,9 @@ import i18n, { changeLanguage, init } from 'i18next';
 import { I18nextProvider } from 'react-i18next';
 import en from '../locales/en.json';
 import et from '../locales/et.json';
+import zhCN from '../locales/zh-CN.json'; // Import Simplified Chinese translations
+import zhTW from '../locales/zh-TW.json'; // Import Traditional Chinese translations
+
 
 // Initialize i18next
 if (!i18n.isInitialized) {
@@ -14,6 +17,8 @@ if (!i18n.isInitialized) {
     resources: {
       en: { translation: en },
       et: { translation: et },
+      'zh-CN': { translation: zhCN },
+      'zh-TW': { translation: zhTW },
     },
     interpolation: {
       escapeValue: false,
@@ -24,7 +29,7 @@ if (!i18n.isInitialized) {
   });
 }
 
-type Language = 'en' | 'et';
+type Language = 'en' | 'et' | 'zh-CN' | 'zh-TW';
 
 interface LanguageContextType {
   language: Language;
