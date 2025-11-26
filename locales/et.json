@@ -15,7 +15,14 @@
   "homeTab": "Kodu",
   "settingsTab": "Seaded",
   "petrolTab": "Kütus",
-  "electricityTab": "Elektri",
+  "electricityTab": "Elekter",
   "mapTab": "Kaart",
+  "priceComparison": "Hinna võrdlus",
+  "last30Days": "Viimased 30 päeva",
+  "average": "Keskmine",
+  "minimum": "Miinimum",
+  "maximum": "Maksimum",
+  "loading": "Hindade laadimine...",
+  "errorLoadingPrices": "Viga hinnaandmete laadimisel",
   "elecUnit": "s/kWh"
 }

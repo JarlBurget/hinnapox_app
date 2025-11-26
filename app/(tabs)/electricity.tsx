@@ -1,12 +1,12 @@
 import React from 'react';
 import PriceCard from '../../components/PriceCard';
-import ElectricityChart from '../../components/ElectricityChart';
+import PriceChart from '../../components/PriceChart';
+
 export default function ElectricityScreen() {
   return (
     <>
       <PriceCard fuel="EL" />
-
-      <ElectricityChart />
+      <PriceChart fuelTypes={['EL']} />
     </>
   );
 }

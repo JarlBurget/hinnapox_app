@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { FuelType } from 'components/PriceCard';
+import { FuelConfig, type ChartData } from 'components/PriceChart';
 
 interface FuelPriceData {
   data: {
@@ -14,26 +15,22 @@ interface ElectricityData {
   };
 }
 
+const STALE_TIME = 60000;
+const CACHE_TIME = 1000 * 60 * 60;
+
 const fetchFuelPrice = async (fuelType: FuelType): Promise<number> => {
   if (fuelType === 'EL') {
     const response = await fetch('https://www.err.ee/api/electricityMarketData/get');
     const result = (await response.json()) as ElectricityData[];
 
-    const currentData = new Date();
-    const currentTime =
-      currentData.getHours() + ':' + currentData.getMinutes().toString().padStart(2, '0');
-
+    const currentTime = new Date().toTimeString().slice(0, 5);
     const todayDataIndex = result[0].data.time.findIndex((timeRange: string) => {
       const startTime = timeRange.substring(0, 5);
       const endTime = timeRange.substring(8, 13);
       return currentTime >= startTime && currentTime <= endTime;
     });
 
-    if (!todayDataIndex && todayDataIndex !== 0) {
-      return 0;
-    }
-
-    return result[0].data.price[todayDataIndex] || 0;
+    return todayDataIndex >= 0 ? result[0].data.price[todayDataIndex] || 0 : 0;
   }
 
   const response = await fetch('https://www.err.ee/api/gasPriceData/get');
@@ -45,7 +42,66 @@ export const useFuelPrice = (fuelType: FuelType) => {
   return useQuery({
     queryKey: ['fuelPrice', fuelType],
     queryFn: () => fetchFuelPrice(fuelType),
-    staleTime: 60000,
-    gcTime: 1000 * 60 * 60,
+    staleTime: STALE_TIME,
+    gcTime: CACHE_TIME,
+  });
+};
+
+const fetchPricesHistory = async (
+  fuelTypes: FuelType[] = ['95', '98', 'D']
+): Promise<ChartData[]> => {
+  const res = await fetch('http://37.27.45.218:3020/api/prices/30d');
+  const json = await res.json();
+  const fuelData = json.gas || [];
+
+  if (!Array.isArray(fuelData) || fuelData.length === 0) return [];
+
+  return fuelTypes
+    .map((fuelType) => {
+      const priceKey = `price_${fuelType.toLowerCase()}`;
+      const prices = fuelData
+        .map((item: any) => Number(item[priceKey]))
+        .filter((v: number) => !isNaN(v) && v > 0);
+
+      if (prices.length === 0) return null;
+
+      const config = FuelConfig[fuelType];
+      return { fuel: fuelType, prices, label: config.label, color: config.color } as ChartData;
+    })
+    .filter((item): item is ChartData => item !== null);
+};
+
+export const useFuelPricesHistory = (fuelTypes: FuelType[] = ['95', '98', 'D']) => {
+  return useQuery({
+    queryKey: ['pricesHistory', fuelTypes],
+    queryFn: () => fetchPricesHistory(fuelTypes),
+    staleTime: CACHE_TIME / 2,
+    gcTime: CACHE_TIME,
+  });
+};
+
+const fetchElectricityHistory = async (): Promise<ChartData[]> => {
+  const res = await fetch('http://37.27.45.218:3020/api/prices/30d');
+  const json = await res.json();
+  const elec = json.electricity || json.electricity_prices || json.el || json.data || [];
+
+  if (!Array.isArray(elec) || elec.length === 0) return [];
+
+  const prices = elec
+    .map((item: any) => Number(item.avg_price))
+    .filter((v: number) => !isNaN(v) && v > 0);
+
+  if (prices.length === 0) return [];
+
+  const config = FuelConfig['EL'];
+  return [{ fuel: 'EL', prices, label: config.label, color: config.color }];
+};
+
+export const useElectricityHistory = () => {
+  return useQuery({
+    queryKey: ['electricityHistory'],
+    queryFn: fetchElectricityHistory,
+    staleTime: CACHE_TIME / 2,
+    gcTime: CACHE_TIME,
   });
 };

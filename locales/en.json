@@ -17,5 +17,12 @@
   "petrolTab": "Petrol",
   "electricityTab": "Electricity",
   "mapTab": "Map",
-  "elecUnit": "¢/kWh"
+  "priceComparison": "Price Comparison",
+  "last30Days": "Last 30 Days",
+  "average": "Average",
+  "minimum": "Minimum",
+  "maximum": "Maximum",
+  "loading": "Loading prices...",
+  "errorLoadingPrices": "Error loading price data",
+   "elecUnit": "¢/kWh"
 }
