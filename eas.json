@@ -10,18 +10,14 @@
       "android": {
         "buildType": "apk"
       },
-      "ios": {
-        "buildType": "development"
-      }
+      "ios": {}
     },
     "preview": {
       "distribution": "internal",
       "android": {
         "buildType": "apk"
       },
-      "ios": {
-        "buildType": "archive"
-      }
+      "ios": {}
     },
     "production": {
       "autoIncrement": true,
@@ -29,7 +25,6 @@
         "buildType": "apk"
       },
       "ios": {
-        "buildType": "archive",
         "resourceClass": "m-medium"
       }
     }
