@@ -8,3 +8,9 @@ Seda peab tegema, et saaks ilma liigsete failideta installida projekti package'i
 ## Usage
 1. ```pnpm expo start``` <br />
 Alustab Expo Go, mille kaudu projekt töötab.
+
+## Contributing
+- [@JarlBurget](https://github.com/JarlBurget) - Projektijuht
+- [@Mart556](https://github.com/Mart556) - Arendusjuht
+- [@robinristo78](https://github.com/robinristo78) - Personalijuht
+- [@TaaviOrro](https://github.com/TaaviOrro/)
