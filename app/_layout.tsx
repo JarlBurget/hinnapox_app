@@ -5,6 +5,7 @@ import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LanguageProvider } from 'contexts/LanguageContext';
+import { ThemeProvider } from 'contexts/ThemeContext';
 
 import 'global.css';
 
@@ -35,11 +36,13 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
-        <SafeAreaProvider>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          </Stack>
-        </SafeAreaProvider>
+        <ThemeProvider>
+          <SafeAreaProvider>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            </Stack>
+          </SafeAreaProvider>
+        </ThemeProvider>
       </LanguageProvider>
     </QueryClientProvider>
   );

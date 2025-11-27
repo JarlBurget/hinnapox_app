@@ -43,13 +43,13 @@ const PriceCard = ({ fuel }: PriceCardProps) => {
   return (
     <View className={styles.container}>
       <View className="my-1 flex-col">
-        <Text className="text-xl font-bold">{t(FuelMapKeys[fuelType])}</Text>
+        <Text className="text-xl font-bold dark:text-white">{t(FuelMapKeys[fuelType])}</Text>
         <View className="my-2 flex-row items-center">
-          <Text className="text-4xl font-bold">
+          <Text className="text-4xl font-bold dark:text-white">
             {price} <Text className="text-2xl">{fuelType === 'EL' ? t('elecUnit') : '€/L'}</Text>
           </Text>
         </View>
-        <Text className="text-md text-gray-600">{t('currentPrice')}</Text>
+        <Text className="text-md text-gray-600 dark:text-glass-white">{t('currentPrice')}</Text>
       </View>
       <View
         className={`flex-col justify-center rounded-lg ${fuelTypeBgStyle} w-[6rem] items-center px-4 py-2`}>
@@ -61,7 +61,7 @@ const PriceCard = ({ fuel }: PriceCardProps) => {
 
 const styles = {
   container:
-    'flex-row justify-between items-center p-2 px-4 border-2 border-black/5 bg-white rounded-2xl shadow-lg w-[90%] mt-6 mx-auto',
+    'flex-row justify-between items-center p-2 px-4 border-2 border-black/5 dark:border-white/5 bg-white dark:bg-theme-dark-tertiary rounded-2xl shadow-lg w-[90%] mt-6 mx-auto',
 };
 
 export default PriceCard;

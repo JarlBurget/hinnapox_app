@@ -9,7 +9,7 @@
   "notifications": "Notifications",
   "fuelPriceDropped": "Fuel price dropped",
   "electricityPriceDropped": "Electricity price dropped",
-  "currentPrice": "Current price | src: err.ee",
+  "currentPrice": "Current price | err.ee",
   "petrol95": "Petrol 95",
   "petrol98": "Petrol 98",
   "diesel": "Diesel",

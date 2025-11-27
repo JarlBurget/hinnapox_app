@@ -9,12 +9,13 @@ import LayoutWrapper from 'components/LayoutWrapper';
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
-
+  
+  // View vajab className='dark:bg-theme-dark-primary', et telefoni ise enda theme teha tumedaks
   return (
-    <View style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }}>
+    <View style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }} className='dark:bg-theme-dark-primary'>
       <>
         <Header />
-        <LayoutWrapper>
+        <LayoutWrapper >
           <Slot />
         </LayoutWrapper>
         <NavBar />
