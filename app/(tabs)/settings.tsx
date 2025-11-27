@@ -2,13 +2,19 @@ import React, { useState } from 'react';
 import { Text, TouchableOpacity, View, Switch } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from 'contexts/LanguageContext';
+import { useTheme } from 'contexts/ThemeContext';
+import { useColorScheme } from 'nativewind';
 
 const Settings = () => {
   const { t } = useTranslation();
   const { language, setLanguage } = useLanguage();
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { theme, setTheme } = useTheme();
   const [fuelNotification, setFuelNotification] = useState(false);
   const [electricityNotification, setElectricityNotification] = useState(false);
+
+  // Color scheme for dark mode support
+  const { colorScheme } = useColorScheme();
+  const iconColor = colorScheme === 'dark' ? '#647373' : '#9A8C8C';
 
   return (
     <View className="px-6 pt-6">
@@ -17,20 +23,20 @@ const Settings = () => {
         <TouchableOpacity
           onPress={() => setLanguage('et')}
           className={`flex-1 items-center rounded-xl py-2.5 ${
-            language === 'et' ? 'bg-theme-blue' : 'bg-[#E5E5EA]'
+            language === 'et' ? 'bg-theme-blue' : 'bg-theme-secondary dark:bg-theme-dark-secondary'
           }`}>
           <Text
-            className={`text-lg font-medium ${language === 'et' ? 'text-white' : 'text-black'}`}>
+            className={`text-lg font-medium ${language === 'et' ? 'text-white' : 'text-black dark:text-white'}`}>
             {t('estonian')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setLanguage('en')}
           className={`flex-1 items-center rounded-xl py-2.5 ${
-            language === 'en' ? 'bg-theme-blue' : 'bg-[#E5E5EA]'
+            language === 'en' ? 'bg-theme-blue' : 'bg-theme-secondary dark:bg-theme-dark-secondary'
           }`}>
           <Text
-            className={`text-lg font-medium ${language === 'en' ? 'text-white' : 'text-black'}`}>
+            className={`text-lg font-medium ${language === 'en' ? 'text-white' : 'text-black dark:text-white'}`}>
             {t('english')}
           </Text>
         </TouchableOpacity>
@@ -39,20 +45,20 @@ const Settings = () => {
         <TouchableOpacity
           onPress={() => setLanguage('zh-CN')}
           className={`flex-1 items-center rounded-xl py-2.5 ${
-            language === 'zh-CN' ? 'bg-theme-blue' : 'bg-[#E5E5EA]'
+            language === 'zh-CN' ? 'bg-theme-blue' : 'bg-theme-secondary dark:bg-theme-dark-secondary'
           }`}>
           <Text
-            className={`text-lg font-medium ${language === 'zh-CN' ? 'text-white' : 'text-black'}`}>
+            className={`text-lg font-medium ${language === 'zh-CN' ? 'text-white' : 'text-black dark:text-white'}`}>
             {t('zh-CN')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setLanguage('zh-TW')}
           className={`flex-1 items-center rounded-xl py-2.5 ${
-            language === 'zh-TW' ? 'bg-theme-blue' : 'bg-[#E5E5EA]'
+            language === 'zh-TW' ? 'bg-theme-blue' : 'bg-theme-secondary dark:bg-theme-dark-secondary '
           }`}>
           <Text
-            className={`text-lg font-medium ${language === 'zh-TW' ? 'text-white' : 'text-black'}`}>
+            className={`text-lg font-medium ${language === 'zh-TW' ? 'text-white' : 'text-black dark:text-white'}`}>
             {t('zh-TW')}
           </Text>
         </TouchableOpacity>
@@ -60,12 +66,12 @@ const Settings = () => {
 
       <Text className="mb-2 ml-1 text-gray-500">{t('style')}</Text>
 
-      <View className="mb-4 flex-row items-center justify-between rounded-lg bg-gray-100 p-4">
-        <Text className="text-xl font-semibold text-black">{t('darkMode')}</Text>
+      <View className="mb-4 flex-row items-center justify-between rounded-lg bg-gray-100 p-4 dark:bg-theme-dark-tertiary">
+        <Text className="text-xl font-semibold text-black dark:text-white">{t('darkMode')}</Text>
         <Switch
-          value={isDarkMode}
-          onValueChange={setIsDarkMode}
-          trackColor={{ false: '#E5E5EA', true: '#128AEB' }}
+          value={theme === 'dark'}
+          onValueChange={(val) => setTheme(val ? 'dark' : 'light')}
+          trackColor={{ false: 'theme-secondary', true: '#128AEB' }}
           thumbColor={'#FFFFFF'}
           style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}
         />
@@ -73,22 +79,22 @@ const Settings = () => {
 
       <Text className="mb-2 ml-1 text-gray-500">{t('notifications')}</Text>
       <View className="flex-col gap-4 ">
-        <View className="flex-row items-center justify-between rounded-lg bg-gray-100 p-4">
-          <Text className="text-xl font-semibold text-black">{t('fuelPriceDropped')}</Text>
+        <View className="flex-row items-center justify-between rounded-lg bg-gray-100 p-4 dark:bg-theme-dark-tertiary">
+          <Text className="text-xl font-semibold text-black dark:text-white">{t('fuelPriceDropped')}</Text>
           <Switch
             value={fuelNotification}
             onValueChange={setFuelNotification}
-            trackColor={{ false: '#E5E5EA', true: '#128AEB' }}
+            trackColor={{ false: 'theme-secondary', true: '#128AEB' }}
             thumbColor={'#FFFFFF'}
             style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}
           />
         </View>
-        <View className="flex-row items-center justify-between rounded-lg bg-gray-100 p-4">
-          <Text className="text-xl font-semibold text-black">{t('electricityPriceDropped')}</Text>
+        <View className="flex-row items-center justify-between rounded-lg bg-gray-100 p-4 dark:bg-theme-dark-tertiary">
+          <Text className="text-xl font-semibold text-black dark:text-white">{t('electricityPriceDropped')}</Text>
           <Switch
             value={electricityNotification}
             onValueChange={setElectricityNotification}
-            trackColor={{ false: '#E5E5EA', true: '#128AEB' }}
+            trackColor={{ false: 'theme-secondary', true: '#128AEB' }}
             thumbColor={'#FFFFFF'}
             style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}
           />

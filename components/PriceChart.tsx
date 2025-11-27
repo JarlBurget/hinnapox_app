@@ -101,11 +101,11 @@ export default function PriceChart({ fuelTypes = ['95', 'D'] }: PriceChartProps)
 
   return (
     <View className="mt-6 px-5">
-      <Text className="mb-2 text-center text-xl font-semibold text-gray-700">
+      <Text className="mb-2 text-center text-xl font-semibold text-gray-700 dark:text-white">
         {t('priceComparison')} - {t('last30Days')}
       </Text>
 
-      <View className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <View className="rounded-2xl border border-gray-200 dark:border-glass-white bg-white p-4 shadow-sm">
         <View className="mb-4 flex-row flex-wrap gap-3">
           {chartData.map((chart) => (
             <View key={chart.fuel} className="flex-row items-center gap-2">

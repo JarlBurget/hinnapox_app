@@ -11,9 +11,9 @@ const LayoutWrapper = forwardRef<ScrollView, Props>(
       <ScrollView
         ref={ref}
         contentContainerStyle={[{ flexGrow: 1 }, contentContainerStyle]}
-        style={[{ flex: 1, backgroundColor: 'white' }, style]}
+        style={[{ flex: 1}, style]}
         {...rest}
-        className="flex-1 bg-white">
+        className="flex-1 bg-white dark:bg-theme-dark-primary">
         {children}
       </ScrollView>
     );
