@@ -1,6 +1,9 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import i18n, { changeLanguage, init } from 'i18next';
 import { I18nextProvider } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Locales
 import en from '../locales/en.json';
 import et from '../locales/et.json';
 import zhCN from '../locales/zh-CN.json'; // Import Simplified Chinese translations
@@ -36,6 +39,8 @@ interface LanguageContextType {
   setLanguage: (lang: Language) => void;
 }
 
+const LANGUAGE_STORAGE_KEY = 'LANGUAGE_PREFERENCE';
+
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -45,6 +50,36 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setLanguage(lang);
     changeLanguage(lang);
   };
+
+  // Load preference from storage on mount
+  useEffect(() => {
+    const loadLang = async () => {
+      try {
+        const storedLang = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY);
+        if (storedLang) {
+          handleSetLanguage(storedLang as Language);
+        }
+      }
+      catch (error) {
+        console.error('Failed to load language preference:', error);
+      }
+    };
+    loadLang();
+  }, []);
+
+  // Sync current language to Storage whenever 'language' state changes
+  useEffect(() => {
+    const syncLanguage = async () => {
+      try {
+        await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+      }
+      catch (error) {
+        console.error('Failed to save language preference:', error);
+      }
+    };
+    syncLanguage();
+
+  }, [language, handleSetLanguage]);
 
   return (
     <I18nextProvider i18n={i18n}>
