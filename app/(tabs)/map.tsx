@@ -10,6 +10,20 @@ type UserLocation = {
   longitude: number;
 } | null;
 
+// Map brand names to colors
+const BRAND_COLORS: Record<string, string> = {
+  Alexela: 'blue',
+  'Circle K': 'red',
+  Olerex: 'yellow',
+  NESTE: 'green',
+  Premium7: 'black',
+  'Метанстанция': 'white',
+  Jetoil: 'pink',
+  Terminal: 'darkgreen',
+  Viada: 'orange',
+  Astarte: 'purple',
+};
+
 const Map = () => {
   const [userLocation, setUserLocation] = useState<UserLocation>(null);
 
@@ -41,7 +55,7 @@ const Map = () => {
     <View style={{ flex: 1 }}>
       <MapView
         style={{ flex: 1 }}
-        showsUserLocation={true} // still shows blue dot
+        showsUserLocation={true}
         initialRegion={{
           latitude: userLocation.latitude,
           longitude: userLocation.longitude,
@@ -58,6 +72,7 @@ const Map = () => {
             }}
             title={`${station.brand_name} - ${station.name}`}
             description={`${station.address}, ${station.city}`}
+            pinColor={BRAND_COLORS[station.brand_name] || 'gray'} // default to gray
           />
         ))}
       </MapView>
