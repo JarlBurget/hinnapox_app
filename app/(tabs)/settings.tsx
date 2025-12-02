@@ -8,7 +8,7 @@ import { useColorScheme } from 'nativewind';
 const Settings = () => {
   const { t } = useTranslation();
   const { language, setLanguage } = useLanguage();
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   const [fuelNotification, setFuelNotification] = useState(false);
   const [electricityNotification, setElectricityNotification] = useState(false);
   const { colorScheme } = useColorScheme();
@@ -72,7 +72,6 @@ const Settings = () => {
         <Switch
           value={colorScheme === 'dark'}
           onValueChange={(value) => setTheme(value ? 'dark' : 'light')}
-
           trackColor={{ false: 'theme-secondary', true: '#128AEB' }}
           thumbColor={'#FFFFFF'}
           style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}

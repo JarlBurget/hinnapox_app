@@ -28,8 +28,8 @@ interface ElectricityData {
   };
 }
 
-const STALE_TIME = 15 * 60000;
-const CACHE_TIME = 60000 * 60;
+const STALE_TIME = 15 * 60000; // Aeg kui kaua andmed on värsked (15 minutit)
+const CACHE_TIME = 60000 * 60; // Aeg kui andmed püsivad mälus (1 tund)
 
 const fetchFuelPrice = async (fuelType: FuelType): Promise<number> => {
   if (fuelType === 'EL') {
@@ -91,7 +91,7 @@ export const useFuelPricesHistory = (fuelTypes: FuelType[] = ['95', '98', 'D']) 
     staleTime: Infinity,
     gcTime: Infinity,
   });
-}; //Robin on nox
+};
 
 const fetchElectricityHistory = async (): Promise<ChartData[]> => {
   const res = await fetch('https://hinnapox.marthaamer.ee/api/prices/30d');

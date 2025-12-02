@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useFuelPrice } from 'hooks/useFuelPrice';
 
@@ -26,28 +26,29 @@ const FuelMapKeys: Record<string, string> = {
 const PriceCard = ({ fuel }: PriceCardProps) => {
   const { t } = useTranslation();
   const [fuelType] = useState(fuel);
+  const [fuelPrice, setFuelPrice] = useState<number | null>(null);
+
   const { data: priceRaw = fuelType === 'EL' ? 80.0 : 1.4 } = useFuelPrice(fuelType);
-  const price = fuelType === 'EL' ? Number((priceRaw / 10).toFixed(2)) : priceRaw; //Kui on elekter (€/MWh), jagame 10-ga, et saada senti/kWh
+  useEffect(() => {
+    setFuelPrice(fuelType === 'EL' ? Number((priceRaw / 10).toFixed(2)) : priceRaw); //Kui on elekter (€/MWh), jagame 10-ga, et saada senti/kWh
+  }, [priceRaw, fuelType]);
 
   const fuelTypeTextStyle = FuelColorsMap[fuelType]?.textStyle || 'text-black';
   const fuelTypeBgStyle = FuelColorsMap[fuelType]?.bgStyle || 'bg-gray-200';
-
-  const lastPriceRef = useRef<number>(price);
-  useEffect(() => {
-    if (lastPriceRef.current !== price) {
-      lastPriceRef.current = price;
-      console.log(`Price for ${fuelType} changed to ${price}`);
-    }
-  }, [price, fuelType]);
 
   return (
     <View className={styles.container}>
       <View className="my-1 flex-col">
         <Text className="text-xl font-bold dark:text-white">{t(FuelMapKeys[fuelType])}</Text>
         <View className="my-2 flex-row items-center">
-          <Text className="text-4xl font-bold dark:text-white">
-            {price} <Text className="text-2xl">{fuelType === 'EL' ? t('elecUnit') : '€/L'}</Text>
-          </Text>
+          {fuelPrice === null ? (
+            <ActivityIndicator size="large" color="#007AFF" />
+          ) : (
+            <Text className="text-4xl font-bold dark:text-white">
+              {fuelPrice}{' '}
+              <Text className="text-2xl">{fuelType === 'EL' ? t('elecUnit') : '€/L'}</Text>
+            </Text>
+          )}
         </View>
         <Text className="text-md text-gray-600 dark:text-glass-white">{t('currentPrice')}</Text>
       </View>
