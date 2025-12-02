@@ -26,5 +26,7 @@
   "maximum": "Maximum",
   "loading": "Loading prices...",
   "errorLoadingPrices": "Error loading price data",
-  "elecUnit": "¢/kWh"
+  "elecUnit": "¢/kWh",
+  "todayPrices": "Today's Prices",
+  "clearSelection": "Clear Selection"
 }

@@ -118,3 +118,26 @@ export const useElectricityHistory = () => {
     gcTime: Infinity,
   });
 };
+
+const fetchTodayElectricityPriceChart = async (): Promise<ChartData[]> => {
+  const res = await fetch('https://www.err.ee/api/electricityMarketData/get');
+  const json = await res.json();
+
+  const elec = json[0]?.data || [];
+
+  if (!Array.isArray(elec.price) || elec.price.length === 0) return [];
+
+  const prices = elec.price.map((price: number) => Number((price / 10).toFixed(2)));
+
+  const config = FuelConfig['EL'];
+  return [{ fuel: 'EL', prices, label: config.label, color: config.color }];
+};
+
+export const useTodayElectricityPriceChart = () => {
+  return useQuery({
+    queryKey: ['todayElectricityPriceChart'],
+    queryFn: fetchTodayElectricityPriceChart,
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
+};
