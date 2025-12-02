@@ -1,11 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Slot } from 'expo-router';
-import NavBar from 'components/NavBar';
-import Header from 'components/Header';
-
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import LayoutWrapper from 'components/LayoutWrapper';
+
+import NavBar from 'components/NavBar';
+import Header from 'components/Header';
+import PullRefresh from 'components/PullRefresh';
+
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
@@ -15,9 +17,11 @@ export default function TabLayout() {
     <View style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }} className='dark:bg-theme-dark-primary'>
       <>
         <Header />
-        <LayoutWrapper >
-          <Slot />
-        </LayoutWrapper>
+          <PullRefresh>
+            <LayoutWrapper >
+              <Slot />
+            </LayoutWrapper>
+          </PullRefresh>
         <NavBar />
       </>
     </View>
