@@ -1,14 +1,6 @@
-import React, { useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  ActivityIndicator,
-  Dimensions,
-  TouchableOpacity,
-  PanResponder,
-  GestureResponderEvent,
-} from 'react-native';
-import Svg, { Path, Line as SvgLine, G } from 'react-native-svg';
+import React, { useState } from 'react';
+import { View, Text, ActivityIndicator, Dimensions, TouchableOpacity } from 'react-native';
+import Svg, { Path, Line as SvgLine } from 'react-native-svg';
 import { useTranslation } from 'react-i18next';
 import {
   useFuelPricesHistory,
@@ -49,53 +41,9 @@ const createMultiLinePath = (
   return d;
 };
 
-// Find local maxima and minima with minimum distance between dots
-const findPeaksAndValleys = (prices: number[], minDistance: number = 3): number[] => {
-  if (prices.length < 3) return [0, prices.length - 1];
-
-  const candidates: { index: number; isPeak: boolean; value: number }[] = [];
-
-  // Add first point
-  candidates.push({ index: 0, isPeak: false, value: prices[0] });
-
-  for (let i = 1; i < prices.length - 1; i++) {
-    const prev = prices[i - 1];
-    const curr = prices[i];
-    const next = prices[i + 1];
-
-    // Peak (local maximum)
-    if (curr > prev && curr > next) {
-      candidates.push({ index: i, isPeak: true, value: curr });
-    }
-    // Valley (local minimum)
-    else if (curr < prev && curr < next) {
-      candidates.push({ index: i, isPeak: false, value: curr });
-    }
-  }
-
-  // Add last point
-  candidates.push({ index: prices.length - 1, isPeak: false, value: prices[prices.length - 1] });
-
-  // Filter out candidates that are too close to each other
-  const result: number[] = [];
-  if (candidates.length > 0) {
-    result.push(candidates[0].index);
-
-    for (let i = 1; i < candidates.length; i++) {
-      const lastAdded = result[result.length - 1];
-      if (Math.abs(candidates[i].index - lastAdded) >= minDistance) {
-        result.push(candidates[i].index);
-      }
-    }
-  }
-
-  return result;
-};
-
 export default function PriceChart({ fuelTypes = ['95', 'D'] }: PriceChartProps) {
   const { t } = useTranslation();
   const [selectedDataIndex, setSelectedDataIndex] = useState<number | null>(null);
-  const svgRef = useRef(null);
 
   const width = Dimensions.get('window').width - 60;
   const height = 250;
@@ -313,7 +261,8 @@ export default function PriceChart({ fuelTypes = ['95', 'D'] }: PriceChartProps)
                     ) : (
                       <>
                         <Text className="text-right text-sm text-gray-600">
-                          {t('day')}{selectedDataIndex + 1}
+                          {t('day')}
+                          {selectedDataIndex + 1}
                         </Text>
                         <Text className="text-right text-lg font-bold text-gray-900">
                           {price.toFixed(2)} €/L
