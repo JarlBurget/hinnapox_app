@@ -236,6 +236,9 @@ export default function PriceChart({ fuelTypes = ['95', 'D'] }: PriceChartProps)
           <View className="mt-4 rounded-lg bg-gray-50 p-4">
             {chartData.map((chart) => {
               const price = chart.prices[selectedDataIndex];
+              const date = new Date(
+                Date.now() - (chart.prices.length - 1 - selectedDataIndex) * 24 * 60 * 60 * 1000
+              );
               if (!price) return null;
 
               return (
@@ -262,7 +265,7 @@ export default function PriceChart({ fuelTypes = ['95', 'D'] }: PriceChartProps)
                       <>
                         <Text className="text-right text-sm text-gray-600">
                           {t('day')}
-                          {selectedDataIndex + 1}
+                          {date.toLocaleDateString()}
                         </Text>
                         <Text className="text-right text-lg font-bold text-gray-900">
                           {price.toFixed(2)} €/L

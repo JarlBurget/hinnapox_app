@@ -29,7 +29,7 @@
   "elecUnit": "¢/kWh",
   "todayPrices": "Today's Prices",
   "clearSelection": "Clear Selection",
-  "day": "Day ",
+  "day": "Date ",
   "loadingLocation": "Loading location...",
   "retry": "Retry",
   "locationPermissionDenied": "Location permission denied"
