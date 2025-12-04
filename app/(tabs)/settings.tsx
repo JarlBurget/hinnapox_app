@@ -5,6 +5,8 @@ import { useLanguage } from 'contexts/LanguageContext';
 import { useTheme } from 'contexts/ThemeContext';
 import { useColorScheme } from 'nativewind';
 
+import ClientOnly from 'components/ClientOnlyComponent';
+
 const Settings = () => {
   const { t } = useTranslation();
   const { language, setLanguage } = useLanguage();
@@ -14,6 +16,7 @@ const Settings = () => {
   const { colorScheme } = useColorScheme();
 
   return (
+    <ClientOnly>
     <View className="px-6 pt-6">
       <Text className="mb-2 ml-1 text-gray-500">{t('language')}</Text>
       <View className="mb-6 flex-row gap-3">
@@ -106,6 +109,7 @@ const Settings = () => {
         </View>
       </View>
     </View>
+    </ClientOnly>
   );
 };
 

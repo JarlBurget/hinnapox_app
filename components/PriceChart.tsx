@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ActivityIndicator, Dimensions, TouchableOpacity } from 'react-native';
 import Svg, { Path, Line as SvgLine } from 'react-native-svg';
 import { useTranslation } from 'react-i18next';
@@ -43,28 +43,55 @@ const createMultiLinePath = (
 
 export default function PriceChart({ fuelTypes = ['95', 'D'] }: PriceChartProps) {
   const { t } = useTranslation();
+  
+  // --- HOOKS SECTION (MUST BE AT THE TOP) ---
+  
   const [selectedDataIndex, setSelectedDataIndex] = useState<number | null>(null);
 
-  const width = Dimensions.get('window').width - 60;
-  const height = 250;
-  const verticalPadding = 20;
-  const horizontalPadding = 15;
-  const usableWidth = width - 2 * horizontalPadding;
+  // 1. Setup State for Width
+  const [windowWidth, setWindowWidth] = useState(0);
 
-  // Fetch fuel and electricity data
+  // 2. Setup Effect for Width
+  useEffect(() => {
+    setWindowWidth(Dimensions.get('window').width);
+    
+    // Optional: Update on resize
+    const subscription = Dimensions.addEventListener('change', ({ window }) => {
+      setWindowWidth(window.width);
+    });
+    return () => subscription?.remove();
+  }, []);
+
+  // 3. Prepare Data Fetching variables
   const fuelTypesFiltered = fuelTypes.filter((f) => f !== 'EL') as ('95' | '98' | 'D')[];
   const hasElectricity = fuelTypes.includes('EL');
 
+  // 4. CALL CUSTOM HOOKS HERE (Before any return statement!)
   const {
     data: fuelChartData,
     isLoading: fuelLoading,
     error: fuelError,
   } = useFuelPricesHistory(fuelTypesFiltered);
+
   const {
     data: elecChartData,
     isLoading: elecLoading,
     error: elecError,
   } = useTodayElectricityPriceChart();
+
+  // --- LOGIC SECTION ---
+
+  // 5. NOW we can check for width. 
+  // If 0, we return early, but AFTER all hooks have been registered.
+  if (windowWidth === 0) {
+    return <View style={{ height: 250, width: '100%' }} />;
+  }
+
+  const width = windowWidth - 60;
+  const height = 250;
+  const verticalPadding = 20;
+  const horizontalPadding = 15;
+  const usableWidth = width - 2 * horizontalPadding;
 
   // Combine data
   const chartData = [
@@ -112,9 +139,7 @@ export default function PriceChart({ fuelTypes = ['95', 'D'] }: PriceChartProps)
     );
   }
 
-  //const globalMax = Math.max(...allPrices);
-  //const globalMin = Math.min(...allPrices);
-  //const globalRange = globalMax - globalMin || 1;
+  // --- RENDER SECTION ---
 
   return (
     <View className="mt-6 px-5">
@@ -158,7 +183,6 @@ export default function PriceChart({ fuelTypes = ['95', 'D'] }: PriceChartProps)
             })}
 
             {chartData.map((chart, idx) => {
-              // Calculate global min/max across all fuel types
               const allPrices = chartData
                 .flatMap((c) => c.prices)
                 .filter((p) => typeof p === 'number' && !isNaN(p) && p > 0);

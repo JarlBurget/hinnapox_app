@@ -9,7 +9,8 @@
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" && prettier -c \"**/*.{js,jsx,ts,tsx,json}\"",
     "format": "eslint \"**/*.{js,jsx,ts,tsx}\" --fix && prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
     "web": "expo start --web",
-    "export": "expo export -p web --output-dir web-build",
+    "export": "expo export -p web --output-dir web-build --clear && node fix-web-build.js",
+    "web-build": "expo export -p web --output-dir web-build --clear",
     "predeploy": "npm run export",
     "deploy": "gh-pages -d web-build -m 'Deploying Expo Web build to GitHub Pages'"
   },
@@ -60,5 +61,5 @@
   "main": "expo-router/entry",
   "private": true,
   "packageManager": "pnpm@10.24.0+sha512.01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a",
-  "homepage": "https://robinristo78.github.io/hinnapox_app"
+  "homepage": "https://robinristo78.github.io/hinnapox_app/"
 }
