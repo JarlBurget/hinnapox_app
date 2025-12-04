@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo, useMemo } from 'react';
+import React, { useEffect, useState, memo, useMemo, useRef } from 'react';
 import { View, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import stations from '../data/tanklad.json';
 import Filter from '../../components/Filter';
+import CitySearch from '../../components/CitySearch';
 import { useLocation } from '../../contexts/LocationContext';
 
 const BRAND_COLORS: Record<string, string> = {
@@ -21,11 +22,30 @@ const BRAND_COLORS: Record<string, string> = {
   Astarte: 'purple',
 };
 
+// Build a map of city → coordinates
+const cityLocations: Record<string, { latitude: number; longitude: number }> = {};
+stations.forEach((s) => {
+  if (!cityLocations[s.city]) {
+    cityLocations[s.city] = { latitude: s.lat, longitude: s.lon };
+  }
+});
+
 const Map = memo(() => {
   const { t } = useTranslation();
   const { location: userLocation, loading, error, requestLocation, hasPermission } = useLocation();
+
   const [selectedBrands, setSelectedBrands] = useState<string[]>(Object.keys(BRAND_COLORS));
   const [showFilter, setShowFilter] = useState(false);
+
+  const mapRef = useRef<MapView>(null);
+
+  const allBrands = Array.from(new Set(stations.map((s) => s.brand_name)));
+  const allCities = Object.keys(cityLocations);
+
+  const filteredStations = useMemo(
+    () => stations.filter((station) => selectedBrands.includes(station.brand_name)),
+    [selectedBrands]
+  );
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prev) =>
@@ -33,12 +53,21 @@ const Map = memo(() => {
     );
   };
 
-  const allBrands = Array.from(new Set(stations.map((s) => s.brand_name)));
+  // City selected → move map
+  const handleSelectCity = (city: string) => {
+    const coords = cityLocations[city];
+    if (!coords || !mapRef.current) return;
 
-  const filteredStations = useMemo(
-    () => stations.filter((station) => selectedBrands.includes(station.brand_name)),
-    [selectedBrands]
-  );
+    mapRef.current.animateToRegion(
+      {
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+        latitudeDelta: 0.2,
+        longitudeDelta: 0.2,
+      },
+      800
+    );
+  };
 
   useEffect(() => {
     if (!hasPermission && !loading) {
@@ -70,6 +99,14 @@ const Map = memo(() => {
 
   return (
     <View style={{ flex: 1 }}>
+      {/* 🔍 Search Component */}
+      <CitySearch
+        cityList={allCities}
+        onSelectCity={handleSelectCity}
+        placeholder={t('Otsi linna')}
+      />
+
+      {/* Filter button */}
       <View
         style={{
           position: 'absolute',
@@ -95,6 +132,7 @@ const Map = memo(() => {
       )}
 
       <MapView
+        ref={mapRef}
         style={{ flex: 1 }}
         showsUserLocation={true}
         initialRegion={{
@@ -102,7 +140,8 @@ const Map = memo(() => {
           longitude: userLocation.longitude,
           latitudeDelta: 0.5,
           longitudeDelta: 0.5,
-        }}>
+        }}
+      >
         {filteredStations.map((station) => (
           <Marker
             key={station.id}
