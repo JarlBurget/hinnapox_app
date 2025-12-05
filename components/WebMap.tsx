@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
-import { View } from 'react-native';
+// No react-native imports needed here usually, unless you use View for layout
 
-// Define the props this component expects
 interface WebMapProps {
   userLocation: { latitude: number; longitude: number } | null;
   displayLocation: { latitude: number; longitude: number };
@@ -10,14 +9,36 @@ interface WebMapProps {
   brandColors: Record<string, string>;
   isDark: boolean;
   t: (key: string, defaultText: string) => string;
+  flyToCoords: { lat: number; lng: number } | null; // New Prop
 }
 
-// Helper to recenter map when user location changes
-const MapRecenter = ({ lat, lng }: { lat: number; lng: number }) => {
+// 1. Controller Component to handle programmatic map moves
+const MapController = ({ 
+  userLocation, 
+  flyToCoords 
+}: { 
+  userLocation: { latitude: number; longitude: number } | null,
+  flyToCoords: { lat: number; lng: number } | null
+}) => {
   const map = useMap();
+
+  // Handle initial User Location centering
   useEffect(() => {
-    map.setView([lat, lng], map.getZoom());
-  }, [lat, lng, map]);
+    if (userLocation) {
+        // Only set view if we haven't manually moved yet (optional logic, or just force it)
+        map.setView([userLocation.latitude, userLocation.longitude], 13);
+    }
+  }, [userLocation, map]);
+
+  // Handle "Fly To" requests (from City Search)
+  useEffect(() => {
+    if (flyToCoords) {
+      map.flyTo([flyToCoords.lat, flyToCoords.lng], 12, {
+        duration: 1.5 // Smooth animation like Native
+      });
+    }
+  }, [flyToCoords, map]);
+
   return null;
 };
 
@@ -42,7 +63,8 @@ const WebMap: React.FC<WebMapProps> = ({
   stations, 
   brandColors, 
   isDark,
-  t 
+  t,
+  flyToCoords
 }) => {
   
   return (
@@ -54,20 +76,19 @@ const WebMap: React.FC<WebMapProps> = ({
         scrollWheelZoom={true}
         style={{ height: '100%', width: '100%', background: isDark ? '#202020' : '#ddd' }}
       >
+        {/* Add the controller to handle logic that requires 'useMap' */}
+        <MapController userLocation={userLocation} flyToCoords={flyToCoords} />
+
         <TileLayer
-          // Update attribution based on the provider
           attribution={isDark 
             ? '&copy; <a href="http://www.esri.com/">Esri</a>' 
             : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           }
-          // Switch between OSM (Light) and Esri Dark Gray (Dark)
           url={isDark 
               ? "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
               : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           }
         />
-        
-        {userLocation && <MapRecenter lat={userLocation.latitude} lng={userLocation.longitude} />}
         
         {/* User Location Marker */}
         {userLocation && (
@@ -94,7 +115,7 @@ const WebMap: React.FC<WebMapProps> = ({
             radius={10}
           >
             <Popup>
-              <div style={{ textAlign: 'center' }}>
+              <div style={{ textAlign: 'center', color: '#000' }}>
                   <strong style={{ fontSize: '14px' }}>{station.brand_name} - {station.name}</strong><br/>
                   <span style={{ fontSize: '12px', color: '#666' }}>{station.address}, {station.city}</span>
               </div>
@@ -106,5 +127,4 @@ const WebMap: React.FC<WebMapProps> = ({
   );
 };
 
-// Default export is crucial for React.lazy
 export default WebMap;

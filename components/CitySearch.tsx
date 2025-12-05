@@ -33,7 +33,7 @@ const CitySearch: React.FC<Props> = ({ cityList, onSelectCity, placeholder }) =>
   };
 
   return (
-    <View style={{ position: 'absolute', top: 40, left: 20, right: 70, zIndex: 50 }}>
+    <View style={{ padding: 10, zIndex: 50 }}>
       <TextInput
         value={searchText}
         onChangeText={handleSearch}
