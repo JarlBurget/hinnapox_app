@@ -7,6 +7,7 @@ import React from 'react';
 import MapScreen from 'components/MapScreen';
 import ClientOnly from 'components/ClientOnlyComponent';
 
+
 export default function MapPage() {
   return (
     // 3. Wrap the MapScreen so it only renders on the client (browser)
