@@ -2,7 +2,7 @@
   "expo": {
     "name": "Hinnapõx",
     "slug": "hinnapox_app",
-    "version": "1.0.0",
+    "version": "1.9.98",
     "scheme": "hinnapox",
     "web": {
       "bundler": "metro",
