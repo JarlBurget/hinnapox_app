@@ -22,10 +22,10 @@ See deployib GitHub Page'i.
 Loob ```android/``` kausta, milles on buildimiseks valmis failid.<br /><br />
 2. ```cd ./android``` <br />
 <br />
-2. ```./gradlew.bat assembleDebug``` <br />
+3. ```./gradlew.bat assembleDebug``` <br />
 Lokaalselt buildib development buildi. Vajab JAVA_HOME env path. <br /><br />
 
-3. ```cd ./app/build/outputs/apk/debug``` <br />
+4. ```cd ./app/build/outputs/apk/debug``` <br />
 apk asukoht. <br /><br />
 
 ## Contributing
