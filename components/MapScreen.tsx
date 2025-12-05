@@ -187,6 +187,7 @@ const MapScreen = memo(() => {
             title={`${station.brand_name} - ${station.name}`}
             description={`${station.address}, ${station.city}`}
             pinColor={BRAND_COLORS[station.brand_name] || 'gray'}
+            tracksViewChanges={false}
           />
         ))}
       </MapView>

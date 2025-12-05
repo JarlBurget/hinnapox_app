@@ -11,7 +11,7 @@ import { useLocation } from 'contexts/LocationContext';
 
 // --- DYNAMIC IMPORT ---
 // This prevents 'window is not defined' error during build/SSR
-const WebMap = React.lazy(() => import('./WebMap'));
+const WebMap = React.lazy(() => import('components/WebMap'));
 
 // --- Configuration ---
 const BRAND_COLORS: Record<string, string> = {
@@ -56,19 +56,19 @@ const MapScreen = () => {
     if (!hasPermission && !loading) {
        requestLocation(); 
     }
-  }, [hasPermission, loading, requestLocation]);
+  }, []); //hasPermission, loading, requestLocation
 
   // --- Loading State ---
-  if (loading || (!userLocation && !error)) {
-    return (
-      <View style={[styles.centerContainer, { backgroundColor: bgColor }]}>
-        <ActivityIndicator size="large" color="#3b82f6" />
-        <Text style={{ marginTop: 10, color: isDark ? '#e5e7eb' : '#374151' }}>
-          {t('loadingLocation', 'Locating...')}
-        </Text>
-      </View>
-    );
-  }
+  // if (loading || (!userLocation && !error)) {
+  //   return (
+  //     <View style={[styles.centerContainer, { backgroundColor: bgColor }]}>
+  //       <ActivityIndicator size="large" color="#3b82f6" />
+  //       <Text style={{ marginTop: 10, color: isDark ? '#e5e7eb' : '#374151' }}>
+  //         {t('loadingLocation', 'Locating...')}
+  //       </Text>
+  //     </View>
+  //   );
+  // }
 
   // Default to Estonia
   const defaultLocation = { latitude: 58.5953, longitude: 25.0136 }; 
@@ -104,6 +104,31 @@ const MapScreen = () => {
         <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1100, pointerEvents: 'box-none' }}>
             <Filter selectedBrands={selectedBrands} toggleBrand={toggleBrand} allBrands={allBrands} />
         </View>
+      )}
+
+{loading && !userLocation && (
+         <View style={{ 
+            position: 'absolute', 
+            top: 80, 
+            alignSelf: 'center', 
+            zIndex: 900, 
+            backgroundColor: isDark ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.9)',
+            paddingVertical: 8,
+            paddingHorizontal: 16,
+            borderRadius: 20,
+            flexDirection: 'row',
+            alignItems: 'center',
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+         }}>
+            <ActivityIndicator size="small" color="#3b82f6" />
+            <Text style={{ marginLeft: 8, color: isDark ? '#fff' : '#000', fontSize: 12, fontWeight: '600' }}>
+               {t('loadingLocation', 'Locating...')}
+            </Text>
+         </View>
       )}
 
       {/* --- Lazy Loaded Map --- */}
