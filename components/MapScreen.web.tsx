@@ -100,26 +100,23 @@ const MapScreen = () => {
       
 
       {/* Filter Button */}
-      <View
-        style={{
-            position: 'absolute',
-            top: showFilter ? 50 : 10, // Moved down slightly to make room for CitySearch
-            right: 20,
-            zIndex: 1300,
-            backgroundColor: isDark ? '#000' : '#fff',
-            borderRadius: 50,
-            padding: 10,
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-            elevation: 5,
-        }}
-      >
-        <TouchableOpacity onPress={() => setShowFilter((prev) => !prev)}>
-          <Ionicons name="filter" size={24} color={iconColor} />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={() => setShowFilter((prev) => !prev)} style={{
+          position: 'absolute',
+          top: showFilter ? 50 : 10, // Moved down slightly to make room for CitySearch
+          right: 20,
+          zIndex: 1300,
+          backgroundColor: isDark ? '#000' : '#fff',
+          borderRadius: 50,
+          padding: 10,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+          cursor: 'pointer'
+      }}>
+        <Ionicons name="filter" size={24} color={iconColor} />
+      </TouchableOpacity>
 
       {/* Filter Menu */}
       {showFilter && (
